@@ -1,5 +1,5 @@
 { stdenv, lib, fetchurl, fetchzip, python3Packages
-, makeWrapper, wrapGAppsHook, qtbase, glib-networking
+, makeWrapper, wrapGAppsHook, qtbase, qtwayland, glib-networking
 , asciidoc, docbook_xml_dtd_45, docbook_xsl, libxml2
 , libxslt, gst_all_1 ? null
 , withPdfReader        ? true
@@ -41,6 +41,7 @@ in python3Packages.buildPythonApplication rec {
 
   buildInputs = [
     qtbase
+    qtwayland
     glib-networking
   ] ++ lib.optionals withMediaPlayback (with gst_all_1; [
     gst-plugins-base gst-plugins-good

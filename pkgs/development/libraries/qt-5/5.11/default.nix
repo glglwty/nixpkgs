@@ -48,7 +48,7 @@ let
     qtscript = [ ./qtscript.patch ];
     qtserialport = [ ./qtserialport.patch ];
     qttools = [ ./qttools.patch ];
-    qtwebengine = optional stdenv.needsPax ./qtwebengine-paxmark-mksnapshot.patch;
+    qtwebengine = [ ./0001-Add-fallback-lookup-for-eglGetProcAddress.patch ] ++ optional stdenv.needsPax ./qtwebengine-paxmark-mksnapshot.patch;
     qtwebkit = [ ./qtwebkit.patch ];
   };
 

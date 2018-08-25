@@ -4,15 +4,15 @@
 }:
 
 let pname = "wlroots";
-    version = "unstable-2018-03-16";
+    version = "trunk";
 in stdenv.mkDerivation rec {
   name = "${pname}-${version}";
 
   src = fetchFromGitHub {
     owner = "swaywm";
     repo = "wlroots";
-    rev = "9cc875429b40e2567b219f8e9ffd23316d136204";
-    sha256 = "1prhic3pyf9n65qfg5akzkc9qv2z3ab60dpcacr7wgr9nxrvnsdq";
+    rev = "6025fcaa098f8ca668893f29df5a9370804175a3";
+    sha256 = "0kjl9ax8aalksfpxcnx2kn5idmaq29xznx02mzg8l96vbf3ndpir";
   };
 
   # $out for the library and $bin for rootston
@@ -25,6 +25,7 @@ in stdenv.mkDerivation rec {
     xcbutilwm libX11 libcap xcbutilimage xcbutilerrors mesa_noglu
   ];
 
+  mesonFlags = "-Dexamples=false -Dxwayland=enabled";
   # Install rootston (the reference compositor) to $bin
   postInstall = ''
     mkdir -p $bin/bin
@@ -42,8 +43,5 @@ in stdenv.mkDerivation rec {
     license     = licenses.mit;
     platforms   = platforms.linux;
     maintainers = with maintainers; [ primeos ];
-    # Marked as broken until the first official/stable release (upstream
-    # request). See #38344 for the public discussion.
-    broken = true;
   };
 }

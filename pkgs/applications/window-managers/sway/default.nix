@@ -1,6 +1,6 @@
 { stdenv, fetchFromGitHub
-, cmake, pkgconfig, asciidoc, libxslt, docbook_xsl
-, wayland, wlc, libxkbcommon, pcre, json_c, dbus
+, meson, ninja, pkgconfig, asciidoc, libxslt, docbook_xsl
+, wayland, wayland-protocols, xwayland, wlroots, libxkbcommon, pcre, json_c, dbus
 , pango, cairo, libinput, libcap, pam, gdk_pixbuf, libpthreadstubs
 , libXdmcp
 , buildDocs ? true
@@ -8,23 +8,24 @@
 
 stdenv.mkDerivation rec {
   name = "sway-${version}";
-  version = "0.15.2";
+  version = "trunk";
 
   src = fetchFromGitHub {
     owner = "swaywm";
     repo = "sway";
-    rev = version;
-    sha256 = "1p9j5gv85lsgj4z28qja07dqyvqk41w6mlaflvvm9yxafx477g5n";
+    rev = "e86d99acd655815781cd2e23877ce58ab5b24826";
+    sha256 = "0g4r0hk540bxmlppnibsaph05m3rjqzdjg6ljhiskd1na1gg7smr";
   };
 
   nativeBuildInputs = [
-    cmake pkgconfig
+    meson ninja pkgconfig
   ] ++ stdenv.lib.optional buildDocs [ asciidoc libxslt docbook_xsl ];
   buildInputs = [
-    wayland wlc libxkbcommon pcre json_c dbus
+    wayland wayland-protocols xwayland wlroots libxkbcommon pcre json_c dbus
     pango cairo libinput libcap pam gdk_pixbuf libpthreadstubs
     libXdmcp
   ];
+  mesonFlags = "-Dsway_version=${version}";
 
   enableParallelBuilding = true;
 
